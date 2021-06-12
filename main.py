@@ -20,16 +20,25 @@ def game_core_v3(number, max_number=100):
     или меньше, а значит угадываем в оставшейся половине. Оставшуюся половину снова делим пополам,
     отгадываем - не угадали? Берем половину от оставшейся половины и снова угадываем... Пока не угадаем"""
     count = 1
-    new_range = max_number + 1
-    predict = int(max_number / 2) + max_number % 2
+    left = 1  # левая граница диапазона
+    right = max_number  # правая граница диапазона
+    predict = int((right + left) / 2)  # берем середину диапазона
     while number != predict:
-        new_range = int(new_range / 2) + new_range % 2
         count += 1
         if number > predict:
-            predict += int(new_range / 2)
+            left = predict + 1  # сдвигаем левую границу
         elif number < predict:
-            predict -= int(new_range / 2)
+            right = predict - 1  # сдвигаем правую границу
+        predict = int((right + left) / 2)
     return count  # выход из цикла, если угадали
+
+
+def ceil_number(number):
+    """Округляем в большую сторону"""
+    if number != 1 and number % 2 > 0:
+        return int(number) + 1
+    else:
+        return int(number)
 
 
 def score_game(game_core, max_number=100):
@@ -45,4 +54,5 @@ def score_game(game_core, max_number=100):
 
 
 # Проверяем
-score_game(game_core_v3, 101)
+score_game(game_core_v3, 100)
+
